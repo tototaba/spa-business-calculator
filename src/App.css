@@ -2,16 +2,16 @@
 /* Add the SF Pro font */
 @font-face {
   font-family: 'SF Pro';
-  src: url('path/to/SFPro-Regular.woff2') format('woff2'),
-       url('path/to/SFPro-Regular.woff') format('woff');
+  src: url('/public/fonts/SFPro-Regular.woff2') format('woff2'),
+       url('/public/fonts/SFPro-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'SF Pro';
-  src: url('path/to/SFPro-Bold.woff2') format('woff2'),
-       url('path/to/SFPro-Bold.woff') format('woff');
+  src: url('/public/fonts/SFPro-Bold.woff2') format('woff2'),
+       url('/public/fonts/SFPro-Bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
 }
