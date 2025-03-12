@@ -1,5 +1,5 @@
 
-/* Add the SF Pro font */
+/* Add the SF Pro font now added locally */
 @font-face {
   font-family: 'SF Pro';
   src: url('/public/fonts/SFPro-Regular.woff2') format('woff2'),
