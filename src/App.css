@@ -1,0 +1,246 @@
+
+/* Add the SF Pro font */
+@font-face {
+  font-family: 'SF Pro';
+  src: url('path/to/SFPro-Regular.woff2') format('woff2'),
+       url('path/to/SFPro-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro';
+  src: url('path/to/SFPro-Bold.woff2') format('woff2'),
+       url('path/to/SFPro-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+
+body {
+  font-family: 'SF Pro', Arial, sans-serif;
+  background-color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 50px auto;
+  padding-left: 48px;
+  padding-right: 48px;
+  background: #FEF7F7;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.header {
+  text-align: left;
+  max-width: 800px;
+}
+
+h1 {
+  font-family: 'SF Pro', Arial, sans-serif;
+  font-size: 3rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #777;
+}
+
+.calculator-wrapper {
+  /* display: flex;
+  justify-content: space-between; */
+  align-items: center;
+  margin-top: 20px;
+}
+
+.calculator {
+  display: flex;
+  gap: 42px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-weight: bold;
+}
+
+.input-group input {
+  width: 100px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.revenue {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  margin-top: 80px;
+}
+
+.revenue h2 {
+  font-family: 'SF Pro', Arial, sans-serif;
+  margin: 0;
+  font-size: 5rem;
+  font-weight: bold;
+}
+
+.revenue p {
+  margin: 0;
+  font-size: 14px;
+  color: #666; /* Adjust color to match design */
+}
+
+.subtext {
+  font-size: 12px;
+  color: #d14c61;
+  margin-top: 5px;
+}
+
+.footnote {
+  font-size: 12px;
+  color: #777;
+  /* text-align: center; */
+  margin-top: 20px;
+}
+
+/* Container for the slider */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  /* max-width: 300px;  */
+}
+
+.input-group label {
+  font-weight: bold;
+  color: #222; /* Dark gray for readability */
+}
+
+/* Slider container to align the input and value */
+.slider-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* SLIDER: Making the track a THIN 1px line */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 1px; /* 1px thin line */
+  background: #aaa; /* Light gray track */
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Custom thumb styling */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #333; /* Charcoal color */
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #333;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* Percentage text to the right of the slider */
+.slider-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #222;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+/* Sentence under slider */
+.input-group p {
+  font-size: 0.9rem;
+  color: #444;
+  margin-top: 5px;
+}
+
+/* Thin 1px Slider Track */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent; /* Remove default styling */
+  cursor: pointer;
+}
+
+/* Custom Track Styling (Super Thin 1px Line) */
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 1px; /* Force 1px line */
+  background: #aaa;
+  border: none;
+}
+
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 1px; /* Force 1px line */
+  background: #aaa;
+  border: none;
+}
+
+/* Custom Thumb Styling */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #333; /* Charcoal circle */
+  border-radius: 50%;
+  margin-top: -9px; /* Align thumb properly to center of line */
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #333;
+  border-radius: 50%;
+}
+
+/* Align the percentage (%) text beside the slider */
+.slider-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.slider-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #222;
+  margin-left: 10px; /* Ensure spacing from the slider */
+  white-space: nowrap;
+}
+
+.note {
+  color: rgb(124, 24, 24) !important;
+}
