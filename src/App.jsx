@@ -7,24 +7,27 @@ function App() {
   const [mode, setMode] = useState("revenue");
 
   // Shared Inputs
-  const [conversionRate, setConversionRate] = useState(2);
-  const [visitors, setVisitors] = useState(2000);
+  const [organicTraffic, setOrganicTraffic] = useState(2000); // Fixed base traffic input
 
   // Revenue Calculator Inputs
+  const [conversionRate, setConversionRate] = useState(1.5); // Normal absolute conversion rate
   const [revenuePerPatient, setRevenuePerPatient] = useState(450);
   const [animatedRevenue, setAnimatedRevenue] = useState(0);
 
   // Traffic Value Calculator Inputs
+  const [increaseInConversionRate, setIncreaseInConversionRate] = useState(0); // Increase over base
   const [adCostPerClick, setAdCostPerClick] = useState(3.5);
   const [animatedAdCost, setAnimatedAdCost] = useState(0);
   const [animatedEquivalentTraffic, setAnimatedEquivalentTraffic] = useState(0);
 
-  // Calculate Values
-  const calculatedRevenue = (conversionRate / 100) * visitors * revenuePerPatient;
-  const calculatedEquivalentTraffic = (visitors * (conversionRate / 100)) / 0.01; // Adjusting for 1% baseline conversion
-  const calculatedAdCost = calculatedEquivalentTraffic * adCostPerClick; // FIXED FORMULA
+  // **Revenue Calculation (Remains the Same)**
+  const calculatedRevenue = (conversionRate / 100) * organicTraffic * revenuePerPatient;
 
-  // GSAP Animation for Revenue
+  // **Traffic Value Calculation (NEW)**
+  const additionalVisitors = (organicTraffic * increaseInConversionRate) / 1; // Adjusting for 1% baseline
+  const calculatedAdCost = additionalVisitors * adCostPerClick;
+
+  // **GSAP Animation for Revenue**
   useEffect(() => {
     gsap.to({ value: animatedRevenue }, {
       value: calculatedRevenue,
@@ -36,10 +39,10 @@ function App() {
     });
   }, [calculatedRevenue]);
 
-  // GSAP Animation for PPC Cost & Equivalent Traffic
+  // **GSAP Animation for Traffic Values**
   useEffect(() => {
     gsap.to({ value: animatedEquivalentTraffic }, {
-      value: calculatedEquivalentTraffic,
+      value: additionalVisitors,
       duration: 0.5,
       ease: "power2.out",
       onUpdate: function () {
@@ -55,7 +58,7 @@ function App() {
         setAnimatedAdCost(this.targets()[0].value);
       },
     });
-  }, [calculatedAdCost, calculatedEquivalentTraffic]);
+  }, [calculatedAdCost, additionalVisitors]);
 
   return (
     <div className="container">
@@ -77,69 +80,84 @@ function App() {
 
       {/* Calculator Wrapper */}
       <div className="calculator-wrapper">
-        {/* Shared Inputs */}
         <div className="calculator">
-          {/* Conversion Rate */}
+          {/* Organic Traffic */}
           <div className="input-group">
-            <label>Conversion Rate</label>
-            <p>How many visitors actually book an appointment?</p>
-            <div className="slider-container">
-              <input
-                type="range"
-                min="1"
-                max="20"
-                step="0.5"
-                value={conversionRate}
-                onChange={(e) => setConversionRate(Number(e.target.value))}
-              />
-              <span className="slider-value">{conversionRate}%</span>
-            </div>
-            <p className="note" >The average website converts at only 1-2%—unless optimized.*</p>
-          </div>
-
-          {/* Visitors Per Month */}
-          <div className="input-group">
-            <label>Visitors Per Month</label>
-            <p>How many people visit your site each month?</p>
+            <label>Organic Traffic Per Month</label>
+            <p>How many visitors come to your site each month?</p>
             <input
               type="number"
-              value={visitors}
-              onChange={(e) => setVisitors(Number(e.target.value))}
+              value={organicTraffic}
+              onChange={(e) => setOrganicTraffic(Number(e.target.value))}
             />
           </div>
 
-          {/* Revenue Calculator */}
+          {/* Revenue Mode Inputs */}
           {mode === "revenue" && (
-       <div className="input-group">
-       <label>Revenue Per Patient</label>
-       <p>What’s the average value of a new patient?</p>
-       <div className="input-prefix">
-         <span>$</span>
-         <input
-           type="number"
-           value={revenuePerPatient}
-           onChange={(e) => setRevenuePerPatient(Number(e.target.value))}
-         />
-       </div>
-     </div>
-     
+            <>
+              <div className="input-group">
+                <label>Conversion Rate</label>
+                <p>What percentage of visitors become patients?</p>
+                <div className="slider-container">
+                  <input
+                    type="range"
+                    min="0.5"
+                    max="20"
+                    step="0.5"
+                    value={conversionRate}
+                    onChange={(e) => setConversionRate(Number(e.target.value))}
+                  />
+                  <span className="slider-value">{conversionRate}%</span>
+                </div>
+              </div>
+
+              <div className="input-group">
+                <label>Revenue Per Patient</label>
+                <p>What’s the average value of a new patient?</p>
+                <div className="input-prefix">
+                  <span>$</span>
+                  <input
+                    type="number"
+                    value={revenuePerPatient}
+                    onChange={(e) => setRevenuePerPatient(Number(e.target.value))}
+                  />
+                </div>
+              </div>
+            </>
           )}
 
-          {/* Traffic Value Calculator */}
+          {/* Traffic Value Mode Inputs */}
           {mode === "traffic" && (
-        <div className="input-group">
-        <label>Ad Cost Per Click</label>
-        <p>How much does it cost per click in Google PPC?</p>
-        <div className="input-prefix">
-          <span>$</span>
-          <input
-            type="number"
-            value={adCostPerClick}
-            onChange={(e) => setAdCostPerClick(Number(e.target.value))}
-          />
-        </div>
-      </div>
-      
+            <>
+              <div className="input-group">
+                <label>Increase in Conversion Rate</label>
+                <p>How much higher is your conversion rate?</p>
+                <div className="slider-container">
+                  <input
+                    type="range"
+                    min="0"
+                    max="20"
+                    step="0.5"
+                    value={increaseInConversionRate}
+                    onChange={(e) => setIncreaseInConversionRate(Number(e.target.value))}
+                  />
+                  <span className="slider-value">+{increaseInConversionRate}%</span>
+                </div>
+              </div>
+
+              <div className="input-group">
+                <label>Ad Cost Per Click</label>
+                <p>What’s the average cost per click in Google PPC?</p>
+                <div className="input-prefix">
+                  <span>$</span>
+                  <input
+                    type="number"
+                    value={adCostPerClick}
+                    onChange={(e) => setAdCostPerClick(Number(e.target.value))}
+                  />
+                </div>
+              </div>
+            </>
           )}
         </div>
 
@@ -158,7 +176,7 @@ function App() {
           ) : (
             <>
               <p>Google PPC Ad Cost</p>
-              <h2 className="cost" >
+              <h2 className="cost">
                 {animatedAdCost.toLocaleString("en-US", {
                   style: "currency",
                   currency: "USD",
@@ -176,7 +194,7 @@ function App() {
       {/* Footnote */}
       <p className="footnote">
         ** Estimates based on your inputs. Actual results may vary. <br />
-        * Industry averages suggest most websites convert at 1-2% unless optimized.
+        * Industry averages suggest most websites convert at 1-2% unless optimized.CD
       </p>
     </div>
   );
