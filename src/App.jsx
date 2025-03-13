@@ -1,15 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
 import "./App.css";
 
 function App() {
   const [conversionRate, setConversionRate] = useState(2);
   const [visitors, setVisitors] = useState(2000);
   const [revenuePerPatient, setRevenuePerPatient] = useState(500);
+  const [animatedRevenue, setAnimatedRevenue] = useState(0);
 
-  const totalRevenue = ((conversionRate / 100) * visitors * revenuePerPatient).toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
+  const revenueRef = useRef({ value: 0 }); // Store previous animated value
+
+  const calculatedRevenue = (conversionRate / 100) * visitors * revenuePerPatient;
+
+  useEffect(() => {
+    gsap.to(revenueRef.current, {
+      value: calculatedRevenue,
+      duration: 0.5, // Smooth animation over 0.5 seconds
+      ease: "power2.out",
+      onUpdate: () => setAnimatedRevenue(revenueRef.current.value),
+    });
+  }, [calculatedRevenue]);
 
   return (
     <div className="container">
@@ -25,22 +35,21 @@ function App() {
         <div className="calculator">
           {/* Conversion Rate */}
           <div className="input-group">
-  <label>Conversion Rate</label>
-  <p>How many visitors actually book an appointment?</p>
-  <div className="slider-container">
-    
-    <input
-      type="range"
-      min="1"
-      max="20"
-      value={conversionRate}
-      onChange={(e) => setConversionRate(Number(e.target.value))}
-    />
-    <span className="slider-value">{conversionRate}%</span>
-    
-  </div>
-  <p className="note" >The average website converts at only 1-2%—unless optimized.*</p>
-</div>
+            <label>Conversion Rate</label>
+            <p>How many visitors actually book an appointment?</p>
+            <div className="slider-container">
+              <input
+                type="range"
+                min="1"
+                max="20"
+                value={conversionRate}
+                onChange={(e) => setConversionRate(Number(e.target.value))}
+              />
+              <span className="slider-value">{conversionRate}%</span>
+            </div>
+            <p className="note">The average website converts at only 1-2%—unless optimized.*</p>
+          </div>
+
           {/* Visitors Per Month */}
           <div className="input-group">
             <label>Visitors Per Month</label>
@@ -67,7 +76,12 @@ function App() {
         {/* Revenue Display */}
         <div className="revenue">
           <p>Total Revenue per Month**</p>
-          <h2>{totalRevenue}</h2>
+          <h2>
+            {animatedRevenue.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </h2>
         </div>
       </div>
 
