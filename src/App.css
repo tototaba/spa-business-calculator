@@ -62,7 +62,22 @@ p {
 .calculator {
   display: flex;
   gap: 42px;
+  justify-content: space-between;
+  flex-wrap: nowrap; /* Prevent wrapping on larger screens */
 }
+
+/* Mobile styles */
+@media (max-width: 600px) { /* Adjust breakpoint as needed */
+  .calculator {
+    flex-direction: column; /* Stack items vertically on smaller screens */
+    gap: 24px; /* Reduce spacing for better mobile layout */
+  }
+
+  .input-group {
+    width: 100%; /* Ensure inputs take full width on mobile */
+  }
+}
+
 
 .input-group {
   display: flex;
@@ -95,6 +110,45 @@ p {
   font-size: 5rem;
   font-weight: bold;
 }
+
+.revenue h2 {
+  font-family: 'SF Pro', Arial, sans-serif;
+  margin: 0;
+  font-size: 5rem; /* Default large size */
+  font-weight: bold;
+  text-align: right;
+  line-height: 1.2; /* Improve readability */
+  word-break: break-word; /* Ensure numbers don’t overflow */
+
+  /* Adjust size for smaller screens */
+  @media (max-width: 768px) { 
+    font-size: 4rem; /* Slightly smaller for tablets */
+  }
+
+  @media (max-width: 480px) { 
+    font-size: 3rem; /* Reduce further for mobile */
+  }
+}
+
+.header h1 {
+  font-family: 'SF Pro', Arial, sans-serif;
+  font-size: 3rem; /* Default large size */
+  color: #333;
+  margin-bottom: 10px;
+  line-height: 1.2; /* Improve readability */
+
+  /* Adjust size for tablets */
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
+
+  /* Adjust size for mobile screens */
+  @media (max-width: 480px) {
+    font-size: 2rem; /* Reduce for mobile */
+  }
+}
+
+
 
 .revenue p {
   margin: 0;
