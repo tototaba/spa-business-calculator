@@ -1,25 +1,61 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import gsap from "gsap";
 import "./App.css";
 
 function App() {
+  // Calculator Mode: 'revenue' (default) or 'traffic'
+  const [mode, setMode] = useState("revenue");
+
+  // Shared Inputs
   const [conversionRate, setConversionRate] = useState(2);
   const [visitors, setVisitors] = useState(2000);
-  const [revenuePerPatient, setRevenuePerPatient] = useState(500);
+
+  // Revenue Calculator Inputs
+  const [revenuePerPatient, setRevenuePerPatient] = useState(450);
   const [animatedRevenue, setAnimatedRevenue] = useState(0);
 
-  const revenueRef = useRef({ value: 0 }); // Store previous animated value
+  // Traffic Value Calculator Inputs
+  const [adCostPerClick, setAdCostPerClick] = useState(3.5);
+  const [animatedAdCost, setAnimatedAdCost] = useState(0);
+  const [animatedEquivalentTraffic, setAnimatedEquivalentTraffic] = useState(0);
 
+  // Calculate Values
   const calculatedRevenue = (conversionRate / 100) * visitors * revenuePerPatient;
+  const calculatedEquivalentTraffic = (visitors * (conversionRate / 100)) / 0.01; // Adjusting for 1% baseline conversion
+  const calculatedAdCost = calculatedEquivalentTraffic * adCostPerClick; // FIXED FORMULA
 
+  // GSAP Animation for Revenue
   useEffect(() => {
-    gsap.to(revenueRef.current, {
+    gsap.to({ value: animatedRevenue }, {
       value: calculatedRevenue,
-      duration: 0.5, // Smooth animation over 0.5 seconds
+      duration: 0.5,
       ease: "power2.out",
-      onUpdate: () => setAnimatedRevenue(revenueRef.current.value),
+      onUpdate: function () {
+        setAnimatedRevenue(this.targets()[0].value);
+      },
     });
   }, [calculatedRevenue]);
+
+  // GSAP Animation for PPC Cost & Equivalent Traffic
+  useEffect(() => {
+    gsap.to({ value: animatedEquivalentTraffic }, {
+      value: calculatedEquivalentTraffic,
+      duration: 0.5,
+      ease: "power2.out",
+      onUpdate: function () {
+        setAnimatedEquivalentTraffic(this.targets()[0].value);
+      },
+    });
+
+    gsap.to({ value: animatedAdCost }, {
+      value: calculatedAdCost,
+      duration: 0.5,
+      ease: "power2.out",
+      onUpdate: function () {
+        setAnimatedAdCost(this.targets()[0].value);
+      },
+    });
+  }, [calculatedAdCost, calculatedEquivalentTraffic]);
 
   return (
     <div className="container">
@@ -29,9 +65,19 @@ function App() {
         <p>See how much revenue you could be making with better conversion.</p>
       </div>
 
-      {/* Calculator & Revenue Display */}
+      {/* Toggle Buttons */}
+      <div className="toggle-buttons">
+        <button className={mode === "revenue" ? "active" : ""} onClick={() => setMode("revenue")}>
+          Revenue
+        </button>
+        <button className={mode === "traffic" ? "active" : ""} onClick={() => setMode("traffic")}>
+          Traffic Value
+        </button>
+      </div>
+
+      {/* Calculator Wrapper */}
       <div className="calculator-wrapper">
-        {/* Input Section */}
+        {/* Shared Inputs */}
         <div className="calculator">
           {/* Conversion Rate */}
           <div className="input-group">
@@ -42,12 +88,13 @@ function App() {
                 type="range"
                 min="1"
                 max="20"
+                step="0.5"
                 value={conversionRate}
                 onChange={(e) => setConversionRate(Number(e.target.value))}
               />
               <span className="slider-value">{conversionRate}%</span>
             </div>
-            <p className="note">The average website converts at only 1-2%—unless optimized.*</p>
+            <p className="note" >The average website converts at only 1-2%—unless optimized.*</p>
           </div>
 
           {/* Visitors Per Month */}
@@ -61,27 +108,68 @@ function App() {
             />
           </div>
 
-          {/* Revenue Per Patient */}
-          <div className="input-group">
-            <label>Revenue Per Patient</label>
-            <p>What’s the average value of a new patient?</p>
-            <input
-              type="number"
-              value={revenuePerPatient}
-              onChange={(e) => setRevenuePerPatient(Number(e.target.value))}
-            />
-          </div>
+          {/* Revenue Calculator */}
+          {mode === "revenue" && (
+       <div className="input-group">
+       <label>Revenue Per Patient</label>
+       <p>What’s the average value of a new patient?</p>
+       <div className="input-prefix">
+         <span>$</span>
+         <input
+           type="number"
+           value={revenuePerPatient}
+           onChange={(e) => setRevenuePerPatient(Number(e.target.value))}
+         />
+       </div>
+     </div>
+     
+          )}
+
+          {/* Traffic Value Calculator */}
+          {mode === "traffic" && (
+        <div className="input-group">
+        <label>Ad Cost Per Click</label>
+        <p>How much does it cost per click in Google PPC?</p>
+        <div className="input-prefix">
+          <span>$</span>
+          <input
+            type="number"
+            value={adCostPerClick}
+            onChange={(e) => setAdCostPerClick(Number(e.target.value))}
+          />
+        </div>
+      </div>
+      
+          )}
         </div>
 
-        {/* Revenue Display */}
+        {/* Output Section */}
         <div className="revenue">
-          <p>Total Revenue per Month**</p>
-          <h2>
-            {animatedRevenue.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
-          </h2>
+          {mode === "revenue" ? (
+            <>
+              <p>Total Revenue per Month**</p>
+              <h2>
+                {animatedRevenue.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })}
+              </h2>
+            </>
+          ) : (
+            <>
+              <p>Google PPC Ad Cost</p>
+              <h2 className="cost" >
+                {animatedAdCost.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })}
+              </h2>
+              <p>Equivalent Organic Traffic</p>
+              <h2>
+                {Math.round(animatedEquivalentTraffic).toLocaleString("en-US")} visitors
+              </h2>
+            </>
+          )}
         </div>
       </div>
 
