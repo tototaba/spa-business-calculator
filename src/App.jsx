@@ -63,10 +63,10 @@ function App() {
   return (
     <div className="container">
       {/* Header */}
-      <div className="header">
+      {/* <div className="header">
         <h1>Your Website’s Biggest Expense? The Patients You Never See.</h1>
         <p>See how much revenue you could be making with better conversion.</p>
-      </div>
+      </div> */}
 
       {/* Toggle Buttons */}
       <div className="toggle-buttons">
