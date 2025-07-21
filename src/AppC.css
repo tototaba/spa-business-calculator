@@ -1,0 +1,205 @@
+.calculator-container {
+    background-color: #f5f1fc;
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 500px;
+    margin: auto;
+    font-family: 'SF Pro', Arial, sans-serif;
+    padding-top:1rem;
+  }
+  
+  .input-group select,
+  .input-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    margin-bottom: 12px;
+    background-color: #fff;
+    color: #333;
+    box-sizing: border-box;
+  }
+  
+  .input-pair-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .input-pair-row input {
+    flex: 1;
+  }
+  
+  /* Services */
+  .services-offered {
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .service-icons {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  
+  .service-button {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    text-align: center;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: color 0.2s ease;
+  }
+  
+  .service-button.active {
+    color: #7c51d1;
+    font-weight: bold;
+  }
+  
+  .service-button .icon {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  /* Expenses */
+  .expenses-section,
+  .profit-section {
+    border-top: 1px dashed #ccc;
+    padding-top: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .expenses-section p,
+  .profit-section p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #555;
+  }
+  
+  .expenses-section h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #555;
+    cursor: pointer;
+    margin-top: 0.25rem;
+  }
+  
+  .profit-section h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-top: 0.25rem;
+    color: #333;
+  }
+  
+  /* Optional: make service row scrollable if many items */
+  @media (max-width: 480px) {
+    .service-icons {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      scroll-snap-type: x mandatory;
+    }
+  }
+  
+  h1 {
+    font-size: 4rem;
+    line-height: 3.5rem;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  .input-group select, .input-group input {
+    width: 100%;
+    padding: 7px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    border: 1px solid #ccc;
+    margin-bottom: 12px;
+    background-color: #fff;
+    color: #333;
+    box-sizing: border-box;
+    
+}
+
+.imput-group {
+    display: 'flex'
+}
+
+
+.input-pair-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .input-box {
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  .input-box label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #555;
+  }
+  
+  .input-box input,
+  .input-box select {
+    width: 100%;
+    padding: 7px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    box-sizing: border-box;
+  }
+  
+  .icon-img {
+    width: 72px;
+    height: auto;
+    margin-bottom: 6px;
+  }
+  
+  .service-button {
+    background: transparent;
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    width: 120px;
+    font-family: inherit;
+    color: #333;
+  }
+  
+  .service-button:hover {
+    border-color: #999;
+  }
+  
+  .service-button.active {
+    background-color: #f0ebff;
+    border-color: #7c3aed; /* soft purple border */
+    color: #4c1d95;        /* darker purple text */
+    box-shadow: 0 2px 6px rgba(124, 58, 237, 0.3);
+  }
+  
+  .service-button.active .icon-img {
+    filter: brightness(0) saturate(100%) invert(27%) sepia(83%) saturate(5471%) hue-rotate(249deg) brightness(90%) contrast(88%);
+  }
+  
